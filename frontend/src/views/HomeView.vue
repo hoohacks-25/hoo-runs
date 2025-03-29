@@ -1,7 +1,5 @@
 <template>
     <div>
-        <p>Hello, world!</p>
-        <p>{{ data.route == undefined ? "Undefined" : "Defined"   }}</p>
         <RouteInfo />
     </div>
 </template>
