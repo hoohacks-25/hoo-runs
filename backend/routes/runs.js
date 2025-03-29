@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const routeGen = require('../controllers/routeGen')
+const generateRun = require('../controllers/runController')
 
 router.get('/generate', (req, res) => {
-    const route = routeGen()
+    const route = generateRun()
     return res.json({ route:route });
 });
 

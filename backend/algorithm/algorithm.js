@@ -1,4 +1,5 @@
 const { RoutesClient } = require('@googlemaps/routing').v2;
+require('dotenv').config();
 
 const routingClient = new RoutesClient({
   key: process.env.GOOGLE_MAPS_API_KEY,
