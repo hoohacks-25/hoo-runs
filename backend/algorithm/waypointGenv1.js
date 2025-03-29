@@ -22,8 +22,10 @@ async function generateRecipe() {
         },
     });
 
+    console.log(JSON.stringify(responseSchema, null, 2))
+
     // Craft schema-aware prompt
-    const prompt = `Generate waypoints for a 10-mile running loop starting at The Fralin Museum of Art at the University of Virginia. Focus on scenic and safe areas. Return a list of each place in JSON format strictly following this schema:
+    const prompt = `Generate 10 waypoints for a 10-mile run starting at (38.03822, -78.50311) and ending at (38.03822, -78.50311). Focus on scenic and safe areas. Return a list of each place in JSON format strictly following this schema:
 ${JSON.stringify(responseSchema, null, 2)}
 Example valid output:
 {
@@ -37,9 +39,9 @@ Example valid output:
         
         // Parse and validate the JSON
         const recipe = JSON.parse(responseText);
-        // if (!validateSchema(recipe)) {
-        //     throw new Error('Invalid schema in response');
-        // }
+        if (!validateSchema(recipe)) {
+            throw new Error('Invalid schema in response');
+        }
         
         return recipe;
     } catch (error) {
@@ -51,11 +53,9 @@ Example valid output:
 // Schema validation function
 function validateSchema(data) {
     return (
-        typeof data.recipe_name === 'string' &&
-        Array.isArray(data.ingredients) &&
-        data.ingredients.every(i => typeof i === 'string') &&
-        Array.isArray(data.steps) &&
-        data.steps.every(s => typeof s === 'string')
+        typeof data.run_name === 'string' &&
+        Array.isArray(data.waypoints) &&
+        data.waypoints.every(i => typeof i.latitude === 'number' && typeof i.longitude === 'number')
     );
 }
 
