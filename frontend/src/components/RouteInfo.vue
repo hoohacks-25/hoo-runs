@@ -3,7 +3,7 @@
   <div class="w-full max-w-lg">
    
     <form class="w-full max-w-lg">
-  <div class="flex flex-wrap -mx-3 mb-6">
+  <div class="flex flex-wrap -mx-3 mb-1">
     <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0 ">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" 
       for="grid-start-pos">
@@ -108,6 +108,9 @@ onMounted(() => {
   };
 });
 
+defineExpose({
+  generateRoute
+})
 
 </script>
 <style lang="scss" scoped>
