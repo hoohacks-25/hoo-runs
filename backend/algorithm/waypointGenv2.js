@@ -14,22 +14,22 @@ module.exports.generateWaypoints = async function generateWaypoints(start, end, 
                 items: {
                     type: Type.OBJECT,
                     properties: {
-                        'lat': {
+                        'latitude': {
                             type: Type.NUMBER,
                             description: 'latitude of waypoint',
                             nullable: false,
                         },
-                        'lng': {
+                        'longitude': {
                             type: Type.NUMBER,
                             description: 'longitude of waypoint',
                             nullable: false,
                         },
                     },
-                    required: ['lat', 'lng'],
+                    required: ['latitude', 'longitude'],
                 },
             },
         },
     });
-
-    console.debug(response.text);
+    const res = JSON.parse(response.text); 
+    return res
 }
