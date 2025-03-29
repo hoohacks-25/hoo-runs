@@ -1,7 +1,7 @@
 <template>
 <div>
   <form class="w-full mb-5">
-    <div class="w-[20rem] bg-gray-100 p-3 rounded-2xl shadow-md">
+    <div class="w-[20rem] bg-gray-100 p-3 rounded-2xl m-auto shadow-md">
     <div class="relative">
       <input
         type="text"
@@ -78,7 +78,7 @@ const generateRoute = async () => {
     distance: distance,
   }
   const data = await axios.get(generate_api_url, params);
-  console.log(data);
+  return data;
 }
 
 onMounted(() => {
