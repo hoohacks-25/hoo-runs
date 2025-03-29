@@ -16,14 +16,6 @@ import RouteInfo  from '../components/RouteInfo.vue'
 
 const store = useMainStore();
 
-const data = ref({});
-const generateURL = '/api/run/generate'
-
-const fetchData = async () => {
-    data.value = (await axios.get(generateURL)).data;
-}
-
-onMounted(fetchData);
 </script>
 <style lang="scss" scoped>
 
