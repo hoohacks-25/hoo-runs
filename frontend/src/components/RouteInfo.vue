@@ -1,43 +1,29 @@
 <template>
-  
-  <div class="w-full max-w-lg">
-   
-    <form class="w-full max-w-lg">
-  <div class="flex flex-wrap -mx-3 mb-1">
-    <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0 ">
-      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" 
-      for="grid-start-pos">
-        Start Location
-      </label>
-      <input v-model="startLocation" class="appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border" 
-      id="grid-start-pos" 
-      type="text" 
-      placeholder="Where do you want to start?">
+<div>
+  <form class="w-full mb-5">
+    <div class="w-[20rem] bg-gray-100 p-3 rounded-2xl shadow-md">
+    <div class="relative">
+      <input
+        type="text"
+        id="startLocation"
+        class="w-full p-4 bg-white rounded-t-2xl  focus:outline-none border border-gray-300 "
+        placeholder="Start Location"
+      />
     </div>
-    <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" 
-      for="grid-end-pos">
-        End location
-      </label>
-      <input v-model="endLocation" class="appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border" 
-      id="grid-end-pos" 
-      type="text" 
-      placeholder="Where do you want to go?">
-    </div>
-    <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" 
-      for="grid-distance">
-        Distance 
-      </label>
-      <input v-model="distance" class="text-center appearance-none block w-25 m-auto bg-gray-200 text-gray-700  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border" 
-      id="grid-distance" 
-      type="number" 
-      max="500"
-      min="0"
-      placeholder="Miles">
-    </div>
+    <input
+      type="text"
+      id="endLocation"
+      class="w-full p-4 bg-white rounded-b-2xl focus:outline-none border border-gray-300"
+      placeholder="End Location"
+    />
+      <!-- Run Distance Input -->
+    <input
+    type="number"
+    class="w-full max-w-md p-3 border border-gray-300 rounded-lg bg-white focus:outline-none mt-4"
+    placeholder="Run Distance (miles)"
+  />
   </div>
-</form>
+  </form>
 </div>
 </template>
 
@@ -58,8 +44,8 @@ const startCoords = ref({});
 
 
 const InitializeLocationSuggestions = async () => {
-  const startInput = document.querySelector('input#grid-start-pos');
-  const endInput = document.querySelector('input#grid-end-pos');
+  const startInput = document.querySelector('input#startLocation');
+  const endInput = document.querySelector('input#endLocation');
 
   const start = new google.maps.places.Autocomplete(startInput);
   const end = new google.maps.places.Autocomplete(endInput);
@@ -113,6 +99,8 @@ defineExpose({
 })
 
 </script>
-<style lang="scss" scoped>
-
+<style scoped>
+input[type="text"]:focus {
+  border:none;
+}
 </style>

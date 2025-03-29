@@ -2,7 +2,7 @@
     <div>
         <h1></h1>
         <RouteInfo ref="routeInfo"/>
-        <button  class="btn" @click="$refs.routeInfo.generateRoute">Find Route</button>
+        <button  class="btn hover:outline-none"  @click="$refs.routeInfo.generateRoute">Find Route</button>
 
     </div>
 </template>
@@ -22,5 +22,6 @@ const store = useMainStore();
 <style scoped>
 .btn {
     background: lightskyblue;
+    border:none;
 }
 </style>
