@@ -1,5 +1,9 @@
 <template>
 <div>
+  <div class="flex items-center justify-between text-3xl">
+    <p>HooRuns</p>
+    <i class="fa-solid fa-person-running"></i>
+  </div>
   <form class="w-full mb-5">
     <div class="w-[20rem] bg-gray-100 p-3 rounded-2xl shadow-md">
     <div class="relative">
