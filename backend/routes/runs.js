@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const generateRun = require('../controllers/runController')
 
-router.get('/generate', (req, res) => {
-    const route = generateRun()
+router.get('/generate', async (req, res) => {
+    const {start, end, miles} = req.body
+    const route = await generateRun(start, end, miles)
     return res.json({ route:route });
 });
 
