@@ -1,7 +1,16 @@
 <template>
 <div>
-  <form class="w-full mb-5">
-    <div class="w-[20rem] bg-gray-100 p-3 rounded-2xl m-auto shadow-md">
+  <div class = "flex items-center justify-end">
+    <button @click = "toggleTheme" class="p-2 border rounded">
+      {{ isDark ? '🌙 ' : '☀️' }}
+    </button>
+  </div>
+  <div class="flex items-center justify-between text-3xl">
+    <p>HooRuns</p>
+    <i class="fa-solid fa-person-running"></i>
+  </div>
+  <form class="w-full mb-5 dark:">
+    <div class="w-[20rem] bg-gray-100 p-3 rounded-2xl shadow-md">
     <div class="relative">
       <input
         type="text"
@@ -35,6 +44,7 @@ import { onMounted, ref } from "vue";
 const startLocation = ref("");
 const endLocation = ref("");
 const distance = ref(0);
+const isDark = ref(false);
 
 const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY
 const AUTOCOMPLETE_API_URL ="https://maps.googleapis.com/maps/api/place/autocomplete/json"
@@ -82,6 +92,7 @@ const generateRoute = async () => {
 }
 
 onMounted(() => {
+
   const script = document.createElement('script');
   script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places`;
   script.async = true;
@@ -92,11 +103,22 @@ onMounted(() => {
   script.onload = () => {
     InitializeLocationSuggestions();
   };
+
+  if (localStorage.getItem('theme') === 'dark') {
+    isDark.value = true
+    document.documentElement.classList.add('dark')
+  }
 });
 
 defineExpose({
   generateRoute
 })
+
+const toggleTheme = () => {
+  isDark.value = !isDark.value
+  document.documentElement.classList.toggle('dark')
+  localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
+}
 
 </script>
 <style scoped>

@@ -46,8 +46,9 @@ const generateRoute = async () => {
 </script>
 <style scoped>
 .btn {
-    background: lightskyblue;
+    background: #3e91fe;
     border:none;
+    color: antiquewhite;
 }
 .v-enter-active,
 .v-leave-active {
