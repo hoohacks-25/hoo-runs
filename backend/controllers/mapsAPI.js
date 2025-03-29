@@ -1,7 +1,7 @@
 require('dotenv').config(); // Load environment variables
 const axios = require('axios');
 
-async function getPointsOfInterest(lat, lng, radius) {
+module.exports.getPointsOfInterest = async function getPointsOfInterest(lat, lng, radius) {
   const apiKey = process.env.GOOGLE_MAPS_API_KEY; // Load API key from .env file
   const endpoint = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
 
@@ -36,7 +36,7 @@ async function getPointsOfInterest(lat, lng, radius) {
   }
 }
 
-async function getRoute(points) {
+module.exports.getRoute = async function getRoute(points) {
     const apiKey = process.env.GOOGLE_MAPS_API_KEY; // Load API key from .env file
     const endpoint = 'https://routes.googleapis.com/directions/v2:computeRoutes';
   
