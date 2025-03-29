@@ -30,6 +30,8 @@
     type="number"
     class="w-full max-w-md p-3 border border-gray-300 rounded-lg bg-white focus:outline-none mt-4"
     placeholder="Run Distance (miles)"
+    max="100"
+    min="0"
   />
   </div>
   </form>

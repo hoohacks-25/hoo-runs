@@ -2,7 +2,7 @@
     <div>
         <h1></h1>
         <RouteInfo ref="routeInfo"/>
-        <Map class="mb-2" />
+        <Map class="mb-4" />
         <div class="grid grid-cols-2 gap-1 content-center">
             <button  class="btn hover:outline-none"  @click="generateRoute">Find Route</button>
             <Transition>
