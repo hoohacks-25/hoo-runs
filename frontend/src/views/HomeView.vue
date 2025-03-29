@@ -2,7 +2,7 @@
     <div>
         <p>Hello, world!</p>
         <p>{{ data.route == undefined ? "Undefined" : "Defined"   }}</p>
-
+        <RouteInfo />
     </div>
 </template>
 
@@ -13,6 +13,8 @@
 import { useMainStore } from '@/stores/store';
 import axios from 'axios'
 import { onMounted, ref, Suspense } from 'vue';
+
+import RouteInfo  from '../components/RouteInfo.vue'
 
 const store = useMainStore();
 
