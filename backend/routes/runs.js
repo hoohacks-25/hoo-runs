@@ -5,7 +5,7 @@ const generateRun = require('../controllers/runController')
 router.post('/generate', async (req, res) => {
     const {start, end, miles} = req.body
     const route = await generateRun(start, end, miles)
-    return res.json({ route:route });
+    return res.json(route);
 });
 
 module.exports = router;
