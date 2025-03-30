@@ -66,13 +66,13 @@ const InitializeLocationSuggestions = async () => {
   start.addListener('place_changed', () => {
     const place = start.getPlace();
     startLocation.value = place.formatted_address;
-    startCoords.value = {lat: place.geometry.location.lat(), long: place.geometry.location.lng()}
+    startCoords.value = {lat: place.geometry.location.lat(), lng: place.geometry.location.lng()}
   });
 
   end.addListener('place_changed', () => {
     const place = end.getPlace();
     endLocation.value = place.formatted_address;
-    endCoords.value = {lat: place.geometry.location.lat(), long: place.geometry.location.lng()}
+    endCoords.value = {lat: place.geometry.location.lat(), lng: place.geometry.location.lng()}
   });
   start.addListener
 }
@@ -85,23 +85,23 @@ const generate_api_url = '/api/run/generate';
 
 const generateRoute = async () => {
   const params = {
-    startLocation: startCoords,
-    endLocation: endCoords,
-    distance: distance,
+    start: {lat: startCoords.value.lat, lng: startCoords.value.lng},
+    end: {lat: startCoords.value.lat, lng: startCoords.value.lng},
+    miles: distance,
   }
-  const data = await axios.get(generate_api_url, params);
+  console.log(params);
+  const data = await axios.post(generate_api_url, params);
   return data;
 }
 
 onMounted(() => {
 
   const script = document.createElement('script');
-  script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places`;
+  script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places,geometry`;
   script.async = true;
   script.defer = true;
   document.head.appendChild(script);
 
-  generateRoute();
   script.onload = () => {
     InitializeLocationSuggestions();
   };
