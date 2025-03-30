@@ -87,7 +87,7 @@ const generateRoute = async () => {
   const params = {
     start: {lat: startCoords.value.lat, lng: startCoords.value.lng},
     end: {lat: startCoords.value.lat, lng: startCoords.value.lng},
-    miles: distance,
+    miles: distance.value,
   }
   console.log(params);
   const data = await axios.post(generate_api_url, params);
