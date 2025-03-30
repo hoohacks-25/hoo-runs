@@ -54,11 +54,11 @@ module.exports.getRoute = async function getRoute(points) {
             distance: data.routes[0].distanceMeters / 1609,
             duration: data.routes[0].duration,
             polyline: data.routes[0].polyline.encodedPolyline,
-            legs: data.routes[0].legs.map(leg => ({
-                start: leg.startLocation.latLng,
-                end: leg.endLocation.latLng,
-                steps: leg.steps
-            }))
+            // legs: data.routes[0].legs.map(leg => ({
+            //     start: leg.startLocation.latLng,
+            //     end: leg.endLocation.latLng,
+            //     steps: leg.steps
+            // }))
         };
     } catch (error) {
         console.error('Routing error:', error);
@@ -67,7 +67,7 @@ module.exports.getRoute = async function getRoute(points) {
 }
 
 
-module.exports.generateLink = function generateLink(coordinates) {
+module.exports.generateGoogleLink = function generateGoogleLink(coordinates) {
     if (!Array.isArray(coordinates) || coordinates.length < 2) {
         throw new Error("At least two coordinates are required.");
     }
@@ -82,6 +82,34 @@ module.exports.generateLink = function generateLink(coordinates) {
     if (waypoints) {
         url += `&waypoints=${waypoints}`;
     }
+
+    return url;
+}
+
+module.exports.generateAppleLink = function generateAppleLink(coordinates) {
+    if (!Array.isArray(coordinates) || coordinates.length < 2) {
+        throw new Error("At least two coordinates are required.");
+    }
+
+    // Starting point
+    const start = `${coordinates[0].latitude},${coordinates[0].longitude}`;
+
+    // Destination point
+    const destination = `${coordinates[coordinates.length - 1].latitude},${coordinates[coordinates.length - 1].longitude}`;
+
+    // Intermediate waypoints (if any)
+    const waypoints = coordinates.slice(1, -1)
+        .map(coord => `${coord.latitude},${coord.longitude}`)
+        .join(',');
+
+    // Construct the URL
+    let url = `http://maps.apple.com/?saddr=${start}&daddr=${destination}`;
+    if (waypoints) {
+        url += `,${waypoints}`;
+    }
+
+    // Add transport mode (optional)
+    url += `&dirflg=walking`; // Change to "driving" or "transit" if needed
 
     return url;
 }

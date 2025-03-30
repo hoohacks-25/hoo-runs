@@ -5,8 +5,8 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 module.exports.generateWaypoints = async function generateWaypoints(start, end, miles) {
     const response = await ai.models.generateContent({
-        model: 'gemini-2.0-flash',
-        contents: `Generate ${10} waypoints for a ${miles}-mile run starting at (${start.lat}, ${start.lng}) and ending at (${end.lat}, ${end.lng}). place these waypoints along roads or at intersections.`,
+        model: 'gemini-2.5-pro-exp-03-25',
+        contents: `Generate ${Math.max(Math.min(10, miles),4)} waypoints for a ${miles}-mile long run starting at (${start.lat}, ${start.lng}) and ending at (${end.lat}, ${end.lng}) such that the shortest distance between each waypoint is the route being run by the runner.`,
         config: {
             responseMimeType: 'application/json',
             responseSchema: {
