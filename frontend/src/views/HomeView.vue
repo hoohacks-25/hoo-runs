@@ -1,39 +1,43 @@
 <template>
     <div>
-        <div class = "flex items-center justify-end">
-          <button @click = "toggleTheme" class="p-1 border rounded" style="padding: 0.5rem 1rem">
+        <div class = "flex items-center justify-end mt-3">
+          <!-- <button @click = "toggleTheme" class="p-1 border rounded" style="padding: 0.5rem 1rem">
             {{ isDark ? '🌙 ' : '☀️' }}
-          </button>
+          </button> -->
         </div>
-        <div class="flex items-center justify-between w-[20rem] m-auto text-3xl mb-4 mt-2">
-          <h2><strong>HooRuns</strong></h2>
+        <div class="flex items-center justify-between w-[20rem] m-auto text-3xl mb-1 mt-2">
+          <h2 ><strong>Stride </strong></h2>
           <i class="fa-solid fa-person-running"></i>
         </div>
+        <h6 class="mb-4 ml-1 text-sm italics text-start"><em>A run route generator project for Hoohacks 2025</em></h6>
 
-        <div class="bg-gray-100 p-4 rounded mb-3 text-center flex items-center ">
+
+
+        <RouteInfo ref="routeInfo"/>
+        
+        <transition>
+        <div v-if="hasRouteData" class="bg-gray-100 p-4 rounded mb-3 text-center flex items-center ">
           <div class=" grid grid-cols-1 grid-rows-2 gap-3 size-fit">
           </div>
-          <table>
-            <thead>
-              <tr>
-                
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><i class="fa fa-solid fa-ruler-horizontal mr-2"></i> <strong>10mi</strong></td>
-                <td></td>
-                <td><i class="fa fa-solid fa-clock mr-2"></i> <strong>2hrs</strong></td>
-
-              </tr>
-              <tr>
-              </tr>
-  
-            </tbody>
-
-          </table>
+            <table >
+              <thead>
+                <tr>
+            
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><i class="fa fa-solid fa-ruler-horizontal mr-2"></i> <strong>{{routeData.distance.toFixed(2)}} mi</strong></td>
+                  <td></td>
+                  <td><i class="fa fa-solid fa-clock mr-2"></i> <strong>{{ routeTimes.low.toFixed(0) }}-{{ routeTimes.high.toFixed(0) }} min</strong></td>
+                </tr>
+                <tr>
+                </tr>
+              </tbody>
+            </table>
         </div>
-        <RouteInfo ref="routeInfo"/>
+      </transition>
+
         <div id="map" class="mb-4 rounded" style="height: 250px; width: 100%;"></div>
         
         <div class="grid grid-cols-2 gap-1 content-center">
@@ -42,11 +46,19 @@
                 <LoadingDots v-if="loadingRoute" />
             </Transition>
             <transition>
-              <a v-if="routeData.google_link && showing_google_link" :href="routeData.google_link"><button class="btn">Go to Maps</button></a>
+              <a v-if="routeData.google_link && showing_google_link && !loadingRoute" :href="routeData.google_link"><button class="btn">Go to Maps</button></a>
             </transition>
         </div>
 
+        <footer class="bg-white rounded-lg shadow-sm mt-4 dark:bg-gray-800">
+    <div class="w-full  w-all p-4 md:flex md:items-center md:justify-between">
+      <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="https://github.com/hoohacks-25" class="hover:underline">HooHackers Team™</a>. All Rights Reserved.
+    </span>
     </div>
+</footer>
+
+    </div>
+    
 </template>
 
 <script>
@@ -66,35 +78,38 @@ const showing_google_link = ref(false);
 const store = useMainStore();
 const routeInfo = ref(null);
 const loadingRoute = ref(false);
-let routeData = ref({});
+const hasRouteData = ref(false);
+
+const routeTimes = ref({low: null, high: null})
+
+let routeData = ref({distance: 0});
 let map;
-window.onload = function () {
-              // Set location (Example: San Francisco)
-              const location = { lat: 37.7749, lng: -122.4194 };
 
-            // Create map instance
-            map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 12,
-                center: location
-            });
+const loadMap = () => {
+  // Set location (Example: San Francisco)
+  const location = { lat: 37.7749, lng: -122.4194 };
 
-            // Add a marker
-            new google.maps.Marker({
-                position: location,
-                map: map,
-                title: "San Francisco"
-            });
+  // Create map instance
+  map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 12,
+      center: location
+  });
 
+  // Add a marker
+  new google.maps.Marker({
+      position: location,
+      map: map,
+      title: "San Francisco"
+  });
 }
+window.onload = loadMap
 
-onMounted(async () => {
-
-})
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 const generateRoute = async () => {
+    loadMap();
     loadingRoute.value = true;
     const data = (await routeInfo.value.generateRoute()).data;
 
@@ -131,7 +146,10 @@ const generateRoute = async () => {
 
     polyline.setMap(map);
     routeData.value = data;
-    
+
+    routeTimes.value = {low: routeData.value.distance * 7, high: routeData.value.distance * 12}
+    hasRouteData.value = true;
+    console.log(routeData.value.distance);
     await sleep(700);
     showing_google_link.value = true;
 

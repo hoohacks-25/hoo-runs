@@ -2,28 +2,41 @@
 <div>
   <form class="w-full mb-5 dark: ">
     <div class="w-[20rem] bg-gray-100 p-3 rounded-2xl shadow-md m-auto">
+      <h2 class="text-s mb-2 text-start">Enter information about your run:</h2>
     <div class="relative">
-        <input
-          type="text"
-          id="startLocation"
-          class="w-full p-4 bg-white rounded-t-2xl  focus:outline-none border border-gray-300 "
-          placeholder="Start Location"
-        />
+        <div class="flex">
+          <input
+            type="text"
+            id="startLocation"
+            class="w-full p-4 bg-white rounded-t-2xl  focus:outline-none border border-gray-300 "
+            placeholder="Start Location "
+          />
+        </div>
     </div>
     <input
       type="text"
       id="endLocation"
-      class="w-full p-4 bg-white rounded-b-2xl focus:outline-none border border-gray-300"
-      placeholder="End Location"
+      class="w-full p-4 bg-white  focus:outline-none border border-gray-300"
+      placeholder="Where would you like to visit?"
     />
       <!-- Run Distance Input -->
-    <input
-    type="number"
-    class="w-full max-w-md p-3 border border-gray-300 rounded-lg bg-white focus:outline-none mt-4"
-    placeholder="Run Distance (miles)"
-    max="100"
-    min="0"
-  />
+    <div class="flex">
+      <input
+      type="number"
+      v-model="distance"
+      class="w-40 max-w-md p-3 border border-gray-300 rounded-bl-2xl bg-white focus:outline-none"
+      placeholder="How far?"
+      max="100"
+      min="0"
+        />
+        <select class="w-full max-w-md p-3 border border-gray-300 rounded-r bg-white  rounded-br-2xl" v-model="model" id="plan">
+          <option value="gemini-2.0-flash" selected>Gemini 2.0 Flash</option>
+          <option value="gemini-2.0-flash-lite	">Gemini 2.0 Flash-Lite</option>
+          <option value="gemini-1.5-flash	">Gemini 1.5 Flash </option>
+          <option value="gemini-1.5-pro	">Gemini 1.5 Pro        </option>
+          <option value="gemini-2.5-pro-exp-03-25">Gemini 2.5 Pro Experimental</option>
+      </select>
+    </div>
   </div>
   </form>
 </div>
@@ -36,8 +49,10 @@ import { onMounted, ref } from "vue";
 
 const startLocation = ref("");
 const endLocation = ref("");
-const distance = ref(0);
+const distance = ref(null);
 const isDark = ref(false);
+
+const model = ref("gemini-2.0-flash");
 
 const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY
 const AUTOCOMPLETE_API_URL ="https://maps.googleapis.com/maps/api/place/autocomplete/json"
@@ -79,8 +94,8 @@ const generateRoute = async () => {
     start: {lat: startCoords.value.lat, lng: startCoords.value.lng},
     end: {lat: startCoords.value.lat, lng: startCoords.value.lng},
     miles: distance.value,
+    model: model.value,
   }
-  console.log(params);
   const data = await axios.post(generate_api_url, params);
   return data;
 }
