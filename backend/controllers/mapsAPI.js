@@ -1,7 +1,7 @@
 require('dotenv').config(); // Load environment variables
 
 module.exports.getRoute = async function getRoute(points) {
-    
+
     const apiKey = process.env.GOOGLE_MAPS_API_KEY; // Load API key from .env file
     // Validate input
     if (!Array.isArray(points) || points.length < 2) {
@@ -48,7 +48,7 @@ module.exports.getRoute = async function getRoute(points) {
         }
 
         const data = await response.json();
-        
+
         // Format response
         return {
             distance: data.routes[0].distanceMeters / 1609,
@@ -64,4 +64,24 @@ module.exports.getRoute = async function getRoute(points) {
         console.error('Routing error:', error);
         throw new Error('Failed to generate route');
     }
+}
+
+
+module.exports.generateLink = function generateLink(coordinates) {
+    if (!Array.isArray(coordinates) || coordinates.length < 2) {
+        throw new Error("At least two coordinates are required.");
+    }
+
+    const origin = `${coordinates[0].latitude},${coordinates[0].longitude}`;
+    const destination = `${coordinates[coordinates.length - 1].latitude},${coordinates[coordinates.length - 1].longitude}`;
+    const waypoints = coordinates.slice(1, -1)
+        .map(coord => `${coord.latitude},${coord.longitude}`)
+        .join('|');
+
+    let url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}`;
+    if (waypoints) {
+        url += `&waypoints=${waypoints}`;
+    }
+
+    return url;
 }
