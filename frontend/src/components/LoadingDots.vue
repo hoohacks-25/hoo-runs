@@ -1,6 +1,6 @@
 <template>
     <transition name="fade">
-        <div class="main">
+        <div class="main text-sm">
         <div><strong>Generating route</strong></div>
         <div class="dot"></div>
         <div class="dot"></div>
