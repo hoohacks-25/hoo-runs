@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class = "flex items-center justify-end">
-    <button @click = "toggleTheme" class="p-2 border rounded">
+    <button @click = "toggleTheme" class="p-1 border rounded" style="padding: 0.5rem 1rem">
       {{ isDark ? '🌙 ' : '☀️' }}
     </button>
   </div>
