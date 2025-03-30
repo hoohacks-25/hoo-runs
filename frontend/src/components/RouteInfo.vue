@@ -1,23 +1,14 @@
 <template>
 <div>
-  <div class = "flex items-center justify-end">
-    <button @click = "toggleTheme" class="p-1 border rounded" style="padding: 0.5rem 1rem">
-      {{ isDark ? '🌙 ' : '☀️' }}
-    </button>
-  </div>
-  <div class="flex items-center justify-between w-[20rem] m-auto text-3xl mb-4 mt-2">
-    <h2>HooRuns</h2>
-    <i class="fa-solid fa-person-running"></i>
-  </div>
   <form class="w-full mb-5 dark: ">
     <div class="w-[20rem] bg-gray-100 p-3 rounded-2xl shadow-md m-auto">
     <div class="relative">
-      <input
-        type="text"
-        id="startLocation"
-        class="w-full p-4 bg-white rounded-t-2xl  focus:outline-none border border-gray-300 "
-        placeholder="Start Location"
-      />
+        <input
+          type="text"
+          id="startLocation"
+          class="w-full p-4 bg-white rounded-t-2xl  focus:outline-none border border-gray-300 "
+          placeholder="Start Location"
+        />
     </div>
     <input
       type="text"

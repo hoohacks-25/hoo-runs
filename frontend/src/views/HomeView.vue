@@ -1,14 +1,49 @@
 <template>
     <div>
-        <h1></h1>
+        <div class = "flex items-center justify-end">
+          <button @click = "toggleTheme" class="p-1 border rounded" style="padding: 0.5rem 1rem">
+            {{ isDark ? '🌙 ' : '☀️' }}
+          </button>
+        </div>
+        <div class="flex items-center justify-between w-[20rem] m-auto text-3xl mb-4 mt-2">
+          <h2><strong>HooRuns</strong></h2>
+          <i class="fa-solid fa-person-running"></i>
+        </div>
+
+        <div class="bg-gray-100 p-4 rounded mb-3 text-center flex items-center ">
+          <div class=" grid grid-cols-1 grid-rows-2 gap-3 size-fit">
+          </div>
+          <table>
+            <thead>
+              <tr>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><i class="fa fa-solid fa-ruler-horizontal mr-2"></i> <strong>10mi</strong></td>
+                <td></td>
+                <td><i class="fa fa-solid fa-clock mr-2"></i> <strong>2hrs</strong></td>
+
+              </tr>
+              <tr>
+              </tr>
+  
+            </tbody>
+
+          </table>
+        </div>
         <RouteInfo ref="routeInfo"/>
         <div id="map" class="mb-4 rounded" style="height: 250px; width: 100%;"></div>
+        
         <div class="grid grid-cols-2 gap-1 content-center">
-          <button  class="btn hover:outline-none"  @click="generateRoute">Find Route</button>
-          <Transition>
-              <LoadingDots v-if="loadingRoute" />
-          </Transition>
-            
+            <button  class="btn hover:outline-none"  @click="generateRoute">Find Route</button>
+            <Transition>
+                <LoadingDots v-if="loadingRoute" />
+            </Transition>
+            <transition>
+              <a v-if="routeData.google_link && showing_google_link" :href="routeData.google_link"><button class="btn">Go to Maps</button></a>
+            </transition>
         </div>
 
     </div>
@@ -27,11 +62,11 @@ import LoadingDots from '@/components/LoadingDots.vue'
 import { onMounted, ref } from 'vue';
 import LoadingDotsVue from '../components/LoadingDots.vue';
 
-const show = ref(false);
+const showing_google_link = ref(false);
 const store = useMainStore();
 const routeInfo = ref(null);
 const loadingRoute = ref(false);
-
+let routeData = ref({});
 let map;
 window.onload = function () {
               // Set location (Example: San Francisco)
@@ -62,10 +97,10 @@ function sleep(ms) {
 const generateRoute = async () => {
     loadingRoute.value = true;
     const data = (await routeInfo.value.generateRoute()).data;
+
     loadingRoute.value = false;
     const encodedPolyline = data.polyline;
 
-    console.log(encodedPolyline);
     const path = google.maps.geometry.encoding.decodePath(encodedPolyline);
 
     const polyline = new google.maps.Polyline({
@@ -95,11 +130,27 @@ const generateRoute = async () => {
     map.fitBounds(bounds);
 
     polyline.setMap(map);
+    routeData.value = data;
     
+    await sleep(700);
+    showing_google_link.value = true;
 
 }
 </script>
 <style scoped>
+table {
+  margin:auto;
+  font-size: 15pt;
+}
+td {
+  padding: 10px 10px;
+}
+p {
+  margin:none;
+}
+.fa {
+  width: 20px;
+}
 .btn {
     background: #3e91fe;
     border:none;
